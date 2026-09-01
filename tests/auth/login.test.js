@@ -1,5 +1,6 @@
 import authAPI from '../../api/AuthAPI.js';
 import { loginTestData } from '../../data/auth/login.data.js';
+import { expectLoginError } from '../../utils/assertions.js';
 
 // describe the test suite for the Login API
 describe('Positive Scenarios', () => {
@@ -37,12 +38,13 @@ describe('Authentication Errors', () => {
       password: 'WrongPassword',
     });
 
-    expect(response.status).toBe(401);
-    expect(response.body).toHaveProperty('success', false);
-    expect(response.body).toHaveProperty(
-      'message',
-      'Invalid email or password',
-    );
+    // expect(response.status).toBe(401);
+    // expect(response.body).toHaveProperty('success', false);
+    // expect(response.body).toHaveProperty(
+    //   'message',
+    //   'Invalid email or password',
+    // );
+    expectLoginError(response, 401, 'Invalid email or password');
   });
 
   test('LOGIN-003 : Return 401 when Email Not Found', async () => {
