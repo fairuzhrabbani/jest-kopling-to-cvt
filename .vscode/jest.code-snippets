@@ -1,0 +1,53 @@
+{
+  "Jest Test": {
+    "prefix": "jesttest",
+    "body": ["test('$1', async () => {", "  $0", "});"],
+    "description": "Create a Jest async test",
+  },
+  "Jest Describe": {
+    "prefix": "jestdescribe",
+    "body": ["describe('$1', () => {", "  $0", "});"],
+    "description": "Create a Jest describe block",
+  },
+  "Jest Test With Arrange": {
+    "prefix": "jestarrange",
+    "body": [
+      "test('$1', async () => {",
+      "  // Arrange",
+      "  $2",
+      "",
+      "  // Act",
+      "  $3",
+      "",
+      "  // Assert",
+      "  $4",
+      "});",
+    ],
+    "description": "Create a Jest test with Arrange Act Assert",
+  },
+  "Jest Expect ToBe": {
+    "prefix": "jestbe",
+    "body": ["expect($1).toBe($2);"],
+    "description": "Jest toBe assertion",
+  },
+  "Jest Expect ToEqual": {
+    "prefix": "jestequal",
+    "body": ["expect($1).toEqual($2);"],
+    "description": "Jest toEqual assertion",
+  },
+  "Jest Expect ToHaveProperty": {
+    "prefix": "jestproperty",
+    "body": ["expect($1).toHaveProperty('$2', $3);"],
+    "description": "Jest toHaveProperty assertion",
+  },
+  "Jest BeforeEach": {
+    "prefix": "jestbefore",
+    "body": ["beforeEach(async () => {", "  $0", "});"],
+    "description": "Create Jest beforeEach",
+  },
+  "Jest AfterEach": {
+    "prefix": "jestafter",
+    "body": ["afterEach(async () => {", "  $0", "});"],
+    "description": "Create Jest afterEach",
+  },
+}

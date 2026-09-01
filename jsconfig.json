@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "types": ["jest"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": ["**/*.js"]
+}
