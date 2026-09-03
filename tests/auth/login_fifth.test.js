@@ -15,11 +15,8 @@ import { loginErrorSchema } from '../../schemas/auth/login-failed.schema.js';
 describe('Auth API', () => {
   describe('Positive Scenarios', () => {
     test('LOGIN-001 : Return 200 when Valid Credentials', async () => {
-      // request the login API using the AuthAPI class and the provided credentials
       const response = await authAPI.login(loginTestData.validCredentials);
 
-      // Assertions to verify the response from the login API
-      // expect the response status to be 200 (OK) and the response body to contain the expected properties
       expectSuccessResponse(response, {
         status: 200,
         message: 'Login successful',
