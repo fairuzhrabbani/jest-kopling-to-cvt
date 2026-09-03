@@ -7,7 +7,6 @@ import {
 
 import { expectLoginSuccess } from '../../utils/assertions/auth.assert.js';
 
-// describe the test suite for the Login API
 describe('Auth API', () => {
   describe('Positive Scenarios', () => {
     test('LOGIN-001 : Return 200 when Valid Credentials', async () => {
@@ -39,7 +38,6 @@ describe('Auth API', () => {
         status: 401,
         message: 'Invalid email or password',
       });
-      // expectLoginError(response, 401, 'Invalid email or password');
     });
 
     test('LOGIN-003 : Return 401 when Email Not Found', async () => {
@@ -91,20 +89,4 @@ describe('Auth API', () => {
   });
 });
 
-/* 
-| Test      | Scenario              | Expected |
-| --------- | --------------------- | -------: |
-| LOGIN-001 | Valid credentials     |      200 |
-| LOGIN-002 | Wrong password        |      401 |
-| LOGIN-003 | Email tidak terdaftar |      401 |
-| LOGIN-004 | Email kosong          |      400 |
-| LOGIN-005 | Password kosong       |      400 |
-| LOGIN-006 | Email invalid format  |      401 |
-| LOGIN-007 | Email invalid format  |      401 |
 
-*/
-
-/* 
-test.skip() atau describe.skip() misalnya LOGIN-007 belum bisa dijalankan karena requirement backend masih belum final:
-test.only() atau describe.skip() untuk debugging
-*/
