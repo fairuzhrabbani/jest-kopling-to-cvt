@@ -25,7 +25,7 @@ describe('Auth API', () => {
         user: {
           id: 1,
           name: 'Admin',
-          email: 'admin@example.com',
+          email: loginTestData.validCredentials.email,
         },
       });
     });
@@ -56,46 +56,37 @@ describe('Auth API', () => {
     test('LOGIN-004 : Return 400 when Email is Empty', async () => {
       const response = await authAPI.login(loginTestData.emptyEmail);
 
-      console.log(response.body);
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('success', false);
-      expect(response.body).toHaveProperty(
-        'message',
-        'Email and password are required',
-      );
+      expectErrorResponse(response, {
+        status: 400,
+        message: 'Email and password are required',
+      });
     });
 
     test('LOGIN-005 : Return 400 when Password is Empty', async () => {
       const response = await authAPI.login(loginTestData.emptyPassword);
 
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('success', false);
-      expect(response.body).toHaveProperty(
-        'message',
-        'Email and password are required',
-      );
+      expectErrorResponse(response, {
+        status: 400,
+        message: 'Email and password are required',
+      });
     });
 
     test('LOGIN-006 : Return 401 when Email is Invalid Format', async () => {
       const response = await authAPI.login(loginTestData.invalidEmailFormat);
 
-      expect(response.status).toBe(401);
-      expect(response.body).toHaveProperty('success', false);
-      expect(response.body).toHaveProperty(
-        'message',
-        'Invalid email or password',
-      );
+      expectErrorResponse(response, {
+        status: 401,
+        message: 'Invalid email or password',
+      });
     });
 
     test.skip('LOGIN-007 : Return 401 when Email is Invalid Format', async () => {
       const response = await authAPI.login(loginTestData.emailInvalidFormat);
 
-      expect(response.status).toBe(401);
-      expect(response.body).toHaveProperty('success', false);
-      expect(response.body).toHaveProperty(
-        'message',
-        'Invalid email or password',
-      );
+      expectErrorResponse(response, {
+        status: 401,
+        message: 'Invalid email or password',
+      });
     });
   });
 });

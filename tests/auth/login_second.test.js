@@ -16,7 +16,7 @@ describe('Auth API', () => {
         user: {
           id: 1,
           name: 'Admin',
-          email: 'admin@example.com',
+          email: loginTestData.validCredentials.email,
         },
       });
     });
