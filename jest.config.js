@@ -12,4 +12,5 @@ export default {
   transform: {},
 
   setupFiles: ['<rootDir>/config/setup.js'],
+  // setupFilesAfterEnv: ['<rootDir>/utils/schemaMatcher.js'],
 };
