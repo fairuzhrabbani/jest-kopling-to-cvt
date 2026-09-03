@@ -1,17 +1,12 @@
 import authAPI from '../../api/AuthAPI.js';
+import { loginTestData } from '../../data/auth/login.data.js';
 
 // describe the test suite for the Login API
-describe('AUTH API', () => {
+describe('Auth API', () => {
   describe('Positive Scenarios', () => {
     test('LOGIN-001 : Return 200 when Valid Credentials', async () => {
-      //
-      const credentials = {
-        email: 'admin@example.com',
-        password: 'Password123',
-      };
-
       // request the login API using the AuthAPI class and the provided credentials
-      const response = await authAPI.login(credentials);
+      const response = await authAPI.login(loginTestData.validCredentials);
 
       // Assertions to verify the response from the login API
       // expect the response status to be 200 (OK) and the response body to contain the expected properties
@@ -32,12 +27,7 @@ describe('AUTH API', () => {
 
   describe('Authentication Errors', () => {
     test('LOGIN-002 : Return 401 when Wrong Password', async () => {
-      const credentials = {
-        email: 'fairuz@example.com',
-        password: 'WrongPassword',
-      };
-
-      const response = await authAPI.login(credentials);
+      const response = await authAPI.login(loginTestData.wrongPassword);
 
       expect(response.status).toBe(401);
       expect(response.body).toHaveProperty('success', false);
@@ -45,15 +35,11 @@ describe('AUTH API', () => {
         'message',
         'Invalid email or password',
       );
+      // expectLoginError(response, 401, 'Invalid email or password');
     });
 
     test('LOGIN-003 : Return 401 when Email Not Found', async () => {
-      const credentials = {
-        email: 'nonexistent@example.com',
-        password: 'Password123',
-      };
-
-      const response = await authAPI.login(credentials);
+      const response = await authAPI.login(loginTestData.emailNotFound);
 
       expect(response.status).toBe(401);
       expect(response.body).toHaveProperty('success', false);
@@ -66,13 +52,9 @@ describe('AUTH API', () => {
 
   describe('Validation Errors', () => {
     test('LOGIN-004 : Return 400 when Email is Empty', async () => {
-      const credentials = {
-        email: '',
-        password: 'Password123',
-      };
+      const response = await authAPI.login(loginTestData.emptyEmail);
 
-      const response = await authAPI.login(credentials);
-
+      console.log(response.body);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('success', false);
       expect(response.body).toHaveProperty(
@@ -82,12 +64,7 @@ describe('AUTH API', () => {
     });
 
     test('LOGIN-005 : Return 400 when Password is Empty', async () => {
-      const credentials = {
-        email: 'fairuz@example.com',
-        password: '',
-      };
-
-      const response = await authAPI.login(credentials);
+      const response = await authAPI.login(loginTestData.emptyPassword);
 
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('success', false);
@@ -98,12 +75,7 @@ describe('AUTH API', () => {
     });
 
     test('LOGIN-006 : Return 401 when Email is Invalid Format', async () => {
-      const credentials = {
-        email: 'invalid-email',
-        password: 'Password123',
-      };
-
-      const response = await authAPI.login(credentials);
+      const response = await authAPI.login(loginTestData.invalidEmailFormat);
 
       expect(response.status).toBe(401);
       expect(response.body).toHaveProperty('success', false);
@@ -114,11 +86,7 @@ describe('AUTH API', () => {
     });
 
     test.skip('LOGIN-007 : Return 401 when Email is Invalid Format', async () => {
-      const credentials = {
-        email: 'invalid-email',
-        password: 'Password123',
-      };
-      const response = await authAPI.login(credentials);
+      const response = await authAPI.login(loginTestData.emailInvalidFormat);
 
       expect(response.status).toBe(401);
       expect(response.body).toHaveProperty('success', false);
@@ -129,7 +97,6 @@ describe('AUTH API', () => {
     });
   });
 });
-
 
 /* 
 | Test      | Scenario              | Expected |
