@@ -1,5 +1,6 @@
 export default {
-  testEnvironment: 'node',
+  // testEnvironment: 'node',
+  testEnvironment: 'allure-jest/node',
 
   roots: ['<rootDir>/tests'],
 
