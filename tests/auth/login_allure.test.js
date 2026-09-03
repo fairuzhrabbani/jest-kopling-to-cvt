@@ -13,6 +13,7 @@ import { loginSuccessSchema } from '../../schemas/auth/login-success.schema.js';
 import { loginErrorSchema } from '../../schemas/auth/login-failed.schema.js';
 import { setTestMetadata } from '../../utils/allure/allure.metadata.js';
 import { allureStep } from '../../utils/allure/allure.step.js';
+import { attachJson } from '../../utils/allure/allure.attachment.js';
 
 describe('Auth API', () => {
   describe('Positive Scenarios', () => {
@@ -27,15 +28,18 @@ describe('Auth API', () => {
           'Verify that user can login successfully using valid credentials.',
       });
 
-      // const response = await authAPI.login(loginTestData.validCredentials);
+      const request = loginTestData.validCredentials;
+
       const response = await allureStep('Send Login Request', async () => {
-        return authAPI.login(loginTestData.validCredentials);
+        await attachJson('Request', request);
+
+        const result = await authAPI.login(request);
+
+        await attachJson('Response', result);
+
+        return result;
       });
 
-      // expectSuccessResponse(response, {
-      //   status: 200,
-      //   message: 'Login successful',
-      // });
       await allureStep('Validate HTTP Status and Common Response', async () => {
         expectSuccessResponse(response, {
           status: 200,
@@ -43,13 +47,6 @@ describe('Auth API', () => {
         });
       });
 
-      // expectLoginSuccess(response, {
-      //   user: {
-      //     id: 1,
-      //     name: 'Admin',
-      //     email: loginTestData.validCredentials.email,
-      //   },
-      // });
       await allureStep('Validate Login Response', async () => {
         expectLoginSuccess(response, {
           user: {
@@ -72,11 +69,24 @@ describe('Auth API', () => {
         tags: ['API', 'Authentication', 'Login', 'Negative'],
         description: 'Verify that user cannot login using wrong password.',
       });
-      const response = await authAPI.login(loginTestData.wrongPassword);
 
-      expectErrorResponse(response, {
-        status: 401,
-        message: 'Invalid email or password',
+      const request = loginTestData.wrongPassword;
+
+      const response = await allureStep('Send Login Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.login(request);
+
+        await attachJson('Response', result);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 401,
+          message: 'Invalid email or password',
+        });
       });
     });
 
@@ -89,11 +99,23 @@ describe('Auth API', () => {
         tags: ['API', 'Authentication', 'Login', 'Negative'],
         description: 'Verify that user cannot login using email not found.',
       });
-      const response = await authAPI.login(loginTestData.emailNotFound);
+      const request = loginTestData.emailNotFound;
 
-      expectErrorResponse(response, {
-        status: 401,
-        message: 'Invalid email or password',
+      const response = await allureStep('Send Login Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.login(request);
+
+        await attachJson('Response', result);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 401,
+          message: 'Invalid email or password',
+        });
       });
     });
   });
@@ -108,11 +130,23 @@ describe('Auth API', () => {
         tags: ['API', 'Authentication', 'Login', 'Negative'],
         description: 'Verify that user cannot login using empty email.',
       });
-      const response = await authAPI.login(loginTestData.emptyEmail);
+      const request = loginTestData.emptyEmail;
 
-      expectErrorResponse(response, {
-        status: 400,
-        message: 'Email and password are required',
+      const response = await allureStep('Send Login Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.login(request);
+
+        await attachJson('Response', result);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 400,
+          message: 'Email and password are required',
+        });
       });
     });
 
@@ -125,11 +159,23 @@ describe('Auth API', () => {
         tags: ['API', 'Authentication', 'Login', 'Negative'],
         description: 'Verify that user cannot login using empty password.',
       });
-      const response = await authAPI.login(loginTestData.emptyPassword);
+      const request = loginTestData.emptyPassword;
 
-      expectErrorResponse(response, {
-        status: 400,
-        message: 'Email and password are required',
+      const response = await allureStep('Send Login Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.login(request);
+
+        await attachJson('Response', result);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 400,
+          message: 'Email and password are required',
+        });
       });
     });
 
@@ -143,11 +189,23 @@ describe('Auth API', () => {
         description:
           'Verify that user cannot login using invalid email format.',
       });
-      const response = await authAPI.login(loginTestData.invalidEmailFormat);
+      const request = loginTestData.invalidEmailFormat;
 
-      expectErrorResponse(response, {
-        status: 401,
-        message: 'Invalid email or password',
+      const response = await allureStep('Send Login Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.login(request);
+
+        await attachJson('Response', result);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 401,
+          message: 'Invalid email or password',
+        });
       });
     });
 
@@ -180,9 +238,18 @@ describe('Auth API', () => {
         tags: ['API', 'Authentication', 'Login', 'Positive'],
         description: 'Verify JSON Schema Validation for Response Success.',
       });
-      const response = await authAPI.login(loginTestData.validCredentials);
+      const request = loginTestData.validCredentials;
 
-      // expectSchema(response.body, loginSuccessSchema);
+      const response = await allureStep('Send Login Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.login(request);
+
+        await attachJson('Response', result);
+
+        return result;
+      });
+
       await allureStep('Validate JSON Schema', async () => {
         expectSchema(response.body, loginSuccessSchema);
       });
@@ -197,9 +264,21 @@ describe('Auth API', () => {
         tags: ['API', 'Authentication', 'Login', 'Negative'],
         description: 'Verify JSON Schema Validation for Response Error.',
       });
-      const response = await authAPI.login(loginTestData.wrongPassword);
+      const request = loginTestData.wrongPassword;
 
-      expectSchema(response.body, loginErrorSchema);
+      const response = await allureStep('Send Login Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.login(request);
+
+        await attachJson('Response', result);
+
+        return result;
+      });
+
+      await allureStep('Validate JSON Schema', async () => {
+        expectSchema(response.body, loginErrorSchema);
+      });
     });
   });
 });
