@@ -12,6 +12,7 @@ import { expectSchema } from '../../utils/assertions/schema.assert.js';
 import { loginSuccessSchema } from '../../schemas/auth/login-success.schema.js';
 import { loginErrorSchema } from '../../schemas/auth/login-failed.schema.js';
 import { setTestMetadata } from '../../utils/allure/allure.metadata.js';
+import { allureStep } from '../../utils/allure/allure.step.js';
 
 describe('Auth API', () => {
   describe('Positive Scenarios', () => {
@@ -26,19 +27,37 @@ describe('Auth API', () => {
           'Verify that user can login successfully using valid credentials.',
       });
 
-      const response = await authAPI.login(loginTestData.validCredentials);
-
-      expectSuccessResponse(response, {
-        status: 200,
-        message: 'Login successful',
+      // const response = await authAPI.login(loginTestData.validCredentials);
+      const response = await allureStep('Send Login Request', async () => {
+        return authAPI.login(loginTestData.validCredentials);
       });
 
-      expectLoginSuccess(response, {
-        user: {
-          id: 1,
-          name: 'Admin',
-          email: loginTestData.validCredentials.email,
-        },
+      // expectSuccessResponse(response, {
+      //   status: 200,
+      //   message: 'Login successful',
+      // });
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectSuccessResponse(response, {
+          status: 200,
+          message: 'Login successful',
+        });
+      });
+
+      // expectLoginSuccess(response, {
+      //   user: {
+      //     id: 1,
+      //     name: 'Admin',
+      //     email: loginTestData.validCredentials.email,
+      //   },
+      // });
+      await allureStep('Validate Login Response', async () => {
+        expectLoginSuccess(response, {
+          user: {
+            id: 1,
+            name: 'Admin',
+            email: loginTestData.validCredentials.email,
+          },
+        });
       });
     });
   });
@@ -163,7 +182,10 @@ describe('Auth API', () => {
       });
       const response = await authAPI.login(loginTestData.validCredentials);
 
-      expectSchema(response.body, loginSuccessSchema);
+      // expectSchema(response.body, loginSuccessSchema);
+      await allureStep('Validate JSON Schema', async () => {
+        expectSchema(response.body, loginSuccessSchema);
+      });
     });
 
     test('LOGIN-009 : JSON Schema Validation for Response Error', async () => {
