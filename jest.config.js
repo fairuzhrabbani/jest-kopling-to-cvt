@@ -2,6 +2,10 @@ export default {
   // testEnvironment: 'node',
   testEnvironment: 'allure-jest/node',
 
+  testEnvironmentOptions: {
+    resultsDir: 'allure-results',
+  },
+  
   roots: ['<rootDir>/tests'],
 
   testMatch: ['**/*.test.js'],

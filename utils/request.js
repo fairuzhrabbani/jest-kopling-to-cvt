@@ -77,6 +77,7 @@ async function sendRequest(method, endpoint, options = {}) {
   });
 
   logger.info(`${method} ${endpoint} → ${response.status}`);
+  logger.info(`${response.json ? JSON.stringify(await response.clone().json()) : 'No JSON response'}`);
   /*
    * body: The body of the HTTP response, parsed as JSON if possible. If the response body cannot be parsed as JSON, it will be set to null.
    */

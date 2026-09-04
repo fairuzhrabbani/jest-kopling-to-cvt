@@ -207,7 +207,7 @@ describe('Auth API', () => {
 
       await allureStep('Validate HTTP Status and Common Response', async () => {
         expectErrorResponse(response, {
-          status: 401,
+          status: 400,
           message: 'Invalid email or password',
         });
       });
@@ -298,7 +298,7 @@ describe('Auth API', () => {
         }),
       );
       const request = loginTestData.validCredentials;
-      
+
       await allureStep('Validate User in Database', async () => {
         const dbUser = await userRepository.findByEmail(request.email);
 

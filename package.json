@@ -13,9 +13,10 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "allure:clean": "rimraf allure-results allure-report",
-    "allure:generate": "allure generate ./allure-results -o ./allure-report",
+    "allure:generate": "allure generate ./allure-results",
     "allure:open": "allure open ./allure-report",
-    "test:login:report": "npm run allure:clean && npm run test:login && npm run allure:generate && npm run allure:open"
+    "test:login:report": "npm run allure:clean && npm run test:login && npm run allure:generate && npm run allure:open",
+    "test:login:reportfirst": "node scripts/test-login-report.js"
   },
   "keywords": [],
   "author": "Fairuz Hanif Rabbani",
