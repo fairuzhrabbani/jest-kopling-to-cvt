@@ -2,7 +2,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['node_modules/', 'coverage/', 'reports/'],
+    ignores: ['node_modules/', 'coverage/', 'allure-report/','allure-results/','logs/'],
   },
 
   {
