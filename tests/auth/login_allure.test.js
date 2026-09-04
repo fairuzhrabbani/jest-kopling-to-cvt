@@ -1,4 +1,5 @@
 import authAPI from '../../api/AuthAPI.js';
+import userRepository from '../../database/repositories/user.repository.js';
 import { loginTestData } from '../../data/auth/login.data.js';
 import {
   expectSuccessResponse,
@@ -8,6 +9,7 @@ import { expectLoginSuccess } from '../../utils/assertions/auth.assert.js';
 import { expectSchema } from '../../utils/assertions/schema.assert.js';
 import { loginSuccessSchema } from '../../schemas/auth/login-success.schema.js';
 import { loginErrorSchema } from '../../schemas/auth/login-failed.schema.js';
+import { expectUserInDatabase } from '../../utils/assertions/database.assert.js';
 import { setTestMetadata } from '../../utils/allure/allure.metadata.js';
 import { allureStep } from '../../utils/allure/allure.step.js';
 import { attachJson } from '../../utils/allure/allure.attachment.js';
@@ -276,12 +278,35 @@ describe('Auth API', () => {
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
         await attachJson('Response', result);
-        
+
         return result;
       });
 
       await allureStep('Validate JSON Schema', async () => {
         expectSchema(response.body, loginErrorSchema);
+      });
+    });
+  });
+
+  describe('Database Validation', () => {
+    test('LOGIN-010 : Database Validation for table users', async () => {
+      await setTestMetadata(
+        loginMetadata({
+          story: 'Login with Database Validation for table users',
+          tags: ['Positive', 'Regression'],
+          description: 'Verify Database Validation for table users.',
+        }),
+      );
+      const request = loginTestData.validCredentials;
+      
+      await allureStep('Validate User in Database', async () => {
+        const dbUser = await userRepository.findByEmail(request.email);
+
+        expectUserInDatabase(dbUser, {
+          id: 1,
+          name: 'Admin',
+          email: request.email,
+        });
       });
     });
   });

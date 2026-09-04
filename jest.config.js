@@ -12,6 +12,6 @@ export default {
 
   transform: {},
 
-  setupFiles: ['<rootDir>/config/setup.js'],
-  // setupFilesAfterEnv: ['<rootDir>/utils/schemaMatcher.js'],
+  setupFiles: ['<rootDir>/config/environment.js'],
+  setupFilesAfterEnv: ['<rootDir>/config/jest.setup.js'],
 };
