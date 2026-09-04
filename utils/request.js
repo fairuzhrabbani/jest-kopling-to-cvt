@@ -60,15 +60,16 @@ const request = {
 async function sendRequest(method, endpoint, options = {}) {
   const url = `${process.env.BASE_URL}${endpoint}`;
 
+  const requestHeaders = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+  };
   /*
    * response: The response from the Fetch API call, which includes the status, headers, and body of the HTTP response.
    */
   const response = await fetch(url, {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
+    headers: requestHeaders,
     ...options,
   });
 
@@ -93,6 +94,7 @@ async function sendRequest(method, endpoint, options = {}) {
     status: response.status,
     headers: response.headers,
     body,
+    requestHeaders,
   };
 }
 
