@@ -35,7 +35,7 @@ describe('Auth API', () => {
         const result = await authAPI.login(request);
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
-        await attachJson('Response', result);
+        await attachJson('Response', result.body);
 
         return result;
       });
@@ -77,7 +77,7 @@ describe('Auth API', () => {
         const result = await authAPI.login(request);
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
-        await attachJson('Response', result);
+        await attachJson('Response', result.body);
 
         return result;
       });
@@ -107,7 +107,7 @@ describe('Auth API', () => {
         const result = await authAPI.login(request);
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
-        await attachJson('Response', result);
+        await attachJson('Response', result.body);
 
         return result;
       });
@@ -139,7 +139,7 @@ describe('Auth API', () => {
         const result = await authAPI.login(request);
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
-        await attachJson('Response', result);
+        await attachJson('Response', result.body);
 
         return result;
       });
@@ -169,7 +169,7 @@ describe('Auth API', () => {
         const result = await authAPI.login(request);
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
-        await attachJson('Response', result);
+        await attachJson('Response', result.body);
 
         return result;
       });
@@ -200,14 +200,14 @@ describe('Auth API', () => {
         const result = await authAPI.login(request);
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
-        await attachJson('Response', result);
+        await attachJson('Response', result.body);
 
         return result;
       });
 
       await allureStep('Validate HTTP Status and Common Response', async () => {
         expectErrorResponse(response, {
-          status: 400,
+          status: 401,
           message: 'Invalid email or password',
         });
       });
@@ -250,7 +250,7 @@ describe('Auth API', () => {
         const result = await authAPI.login(request);
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
-        await attachJson('Response', result);
+        await attachJson('Response', result.body);
 
         return result;
       });
@@ -277,7 +277,7 @@ describe('Auth API', () => {
         const result = await authAPI.login(request);
         await attachJson('Request Headers', result.requestHeaders);
         await attachJson('Response Headers', result.headers);
-        await attachJson('Response', result);
+        await attachJson('Response', result.body);
 
         return result;
       });

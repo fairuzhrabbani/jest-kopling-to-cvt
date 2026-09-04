@@ -71,13 +71,15 @@ async function sendRequest(method, endpoint, options = {}) {
    * response: The response from the Fetch API call, which includes the status, headers, and body of the HTTP response.
    */
   const response = await fetch(url, {
+    ...options,
     method,
     headers: requestHeaders,
-    ...options,
   });
 
   logger.info(`${method} ${endpoint} → ${response.status}`);
-  logger.info(`${response.json ? JSON.stringify(await response.clone().json()) : 'No JSON response'}`);
+
+  const responseHeaders = Object.fromEntries(response.headers.entries());
+
   /*
    * body: The body of the HTTP response, parsed as JSON if possible. If the response body cannot be parsed as JSON, it will be set to null.
    */
@@ -88,6 +90,7 @@ async function sendRequest(method, endpoint, options = {}) {
    */
   try {
     body = await response.json();
+    logger.info(`Response: ${JSON.stringify(body)}`);
   } catch {
     body = null;
   }
@@ -97,7 +100,7 @@ async function sendRequest(method, endpoint, options = {}) {
    */
   return {
     status: response.status,
-    headers: response.headers,
+    headers: responseHeaders,
     body,
     requestHeaders,
   };

@@ -7,3 +7,13 @@ export const expectLoginSuccess = (response, expected) => {
 
   expect(response.body).toHaveProperty('data.user.email', expected.user.email);
 };
+
+export const expectRegisterSuccess = (response, expected) => {
+  expect(response.body).toHaveProperty('data.id', expected.id);
+
+  expect(response.body).toHaveProperty('data.name', expected.name);
+
+  expect(response.body).toHaveProperty('data.email', expected.email);
+
+  expect(response.body).toHaveProperty('data.role', expected.role);
+};
