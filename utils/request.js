@@ -1,3 +1,4 @@
+import logger from './logger.js';
 /*
  * Object containing methods for making HTTP requests (GET, POST, PUT, PATCH, DELETE) to a specified endpoint.
  * Each method returns a promise that resolves to an object containing the response status, headers, and body.
@@ -60,6 +61,8 @@ const request = {
 async function sendRequest(method, endpoint, options = {}) {
   const url = `${process.env.BASE_URL}${endpoint}`;
 
+  logger.info(`${method} ${url}`);
+
   const requestHeaders = {
     'Content-Type': 'application/json',
     ...options.headers,
@@ -73,6 +76,7 @@ async function sendRequest(method, endpoint, options = {}) {
     ...options,
   });
 
+  logger.info(`${method} ${endpoint} → ${response.status}`);
   /*
    * body: The body of the HTTP response, parsed as JSON if possible. If the response body cannot be parsed as JSON, it will be set to null.
    */
