@@ -66,7 +66,7 @@ describe('Register API', () => {
   });
 
   describe('Negative Scenarios', () => {
-    test('REGISTER-002 : Return 400 when User Registers Without Input Name', async () => {
+    test('REGISTER-002 : Return 400 when without Input Name', async () => {
       await setTestMetadata(
         registerMetadata({
           testCaseId: 'REGISTER-002',
@@ -99,7 +99,7 @@ describe('Register API', () => {
       });
     });
 
-    test('REGISTER-003 : Return 400 when User Registers Without Input Email', async () => {
+    test('REGISTER-003 : Return 400 when without Input Email', async () => {
       await setTestMetadata(
         registerMetadata({
           testCaseId: 'REGISTER-003',
@@ -132,7 +132,7 @@ describe('Register API', () => {
       });
     });
 
-    test('REGISTER-004 : Return 400 when User Registers Without Input Password', async () => {
+    test('REGISTER-004 : Return 400 when without Input Password', async () => {
       await setTestMetadata(
         registerMetadata({
           testCaseId: 'REGISTER-004',
@@ -166,7 +166,7 @@ describe('Register API', () => {
       });
     });
 
-    test('REGISTER-005 : Return 400 when User Registers With invalid format Email', async () => {
+    test('REGISTER-005 : Return 400 when with Invalid Email Format', async () => {
       await setTestMetadata(
         registerMetadata({
           testCaseId: 'REGISTER-005',
@@ -201,7 +201,7 @@ describe('Register API', () => {
       });
     });
 
-    test('REGISTER-006 : Return 409 when User Registers With Email has been registered', async () => {
+    test('REGISTER-006 : Return 409 when with Email Has Been Registered', async () => {
       await setTestMetadata(
         registerMetadata({
           testCaseId: 'REGISTER-006',

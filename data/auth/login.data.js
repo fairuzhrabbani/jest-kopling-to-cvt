@@ -25,7 +25,7 @@ export const loginTestData = {
   },
 
   invalidEmailFormat: {
-    email: 'invalid-email',
+    email: 'invalid-email-format',
     password: 'Password123',
   },
 };

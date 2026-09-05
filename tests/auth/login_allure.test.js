@@ -11,19 +11,23 @@ import { loginSuccessSchema } from '../../schemas/auth/login-success.schema.js';
 import { loginErrorSchema } from '../../schemas/auth/login-failed.schema.js';
 import { expectUserInDatabase } from '../../utils/assertions/database.assert.js';
 import { setTestMetadata } from '../../utils/allure/allure.metadata.js';
+import { loginMetadata } from '../../utils/allure/auth.metadata.js';
 import { allureStep } from '../../utils/allure/allure.step.js';
 import { attachJson } from '../../utils/allure/allure.attachment.js';
-import { loginMetadata } from '../../utils/allure/auth.metadata.js';
 
 describe('Auth API', () => {
   describe('Positive Scenarios', () => {
     test('LOGIN-001 : Return 200 when Valid Credentials', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-001',
           story: 'Login with valid credentials',
           tags: ['Positive', 'Regression'],
+          severity: 'critical',
+          priority: 'high',
           description:
             'Verify that user can login successfully using valid credentials.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
 
@@ -59,13 +63,17 @@ describe('Auth API', () => {
     });
   });
 
-  describe('Authentication Errors', () => {
+  describe('Negative Scenarios', () => {
     test('LOGIN-002 : Return 401 when Wrong Password', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-002',
           story: 'Login with wrong password',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description: 'Verify that user cannot login using wrong password.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
 
@@ -93,9 +101,13 @@ describe('Auth API', () => {
     test('LOGIN-003 : Return 401 when Email Not Found', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-003',
           story: 'Login with email not found',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description: 'Verify that user cannot login using email not found.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
 
@@ -119,15 +131,17 @@ describe('Auth API', () => {
         });
       });
     });
-  });
 
-  describe('Validation Errors', () => {
     test('LOGIN-004 : Return 400 when Email is Empty', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-004',
           story: 'Login with email is empty',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description: 'Verify that user cannot login using empty email.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
 
@@ -155,9 +169,13 @@ describe('Auth API', () => {
     test('LOGIN-005 : Return 400 when Password is Empty', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-005',
           story: 'Login with empty password',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description: 'Verify that user cannot login using empty password.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
 
@@ -185,10 +203,14 @@ describe('Auth API', () => {
     test('LOGIN-006 : Return 401 when Email is Invalid Format', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-006',
           story: 'Login with invalid email format',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description:
             'Verify that user cannot login using invalid email format.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
 
@@ -236,9 +258,13 @@ describe('Auth API', () => {
     test('LOGIN-008 : JSON Schema Validation for Response Success', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-008',
           story: 'Login with JSON Schema Validation for Response Success',
           tags: ['Positive', 'Regression'],
+          severity: 'critical',
+          priority: 'critical',
           description: 'Verify JSON Schema Validation for Response Success.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
 
@@ -263,9 +289,13 @@ describe('Auth API', () => {
     test('LOGIN-009 : JSON Schema Validation for Response Error', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-009',
           story: 'Login with JSON Schema Validation for Response Error',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'critical',
           description: 'Verify JSON Schema Validation for Response Error.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
 
@@ -292,9 +322,13 @@ describe('Auth API', () => {
     test('LOGIN-010 : Database Validation for table users', async () => {
       await setTestMetadata(
         loginMetadata({
+          testCaseId: 'LOGIN-010',
           story: 'Login with Database Validation for table users',
           tags: ['Positive', 'Regression'],
+          severity: 'critical',
+          priority: 'critical',
           description: 'Verify Database Validation for table users.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
       const request = loginTestData.validCredentials;
@@ -303,9 +337,9 @@ describe('Auth API', () => {
         const dbUser = await userRepository.findByEmail(request.email);
 
         expectUserInDatabase(dbUser, {
-          id: 1,
           name: 'Admin',
           email: request.email,
+          role: 'admin',
         });
       });
     });
