@@ -32,4 +32,10 @@ export const registerTestData = {
     email: 'invalid-email',
     password: 'Password123',
   },
+
+  emailHasBeenRegistered: {
+    name: 'messi',
+    email: 'messi@example.com',
+    password: 'Password123',
+  },
 };

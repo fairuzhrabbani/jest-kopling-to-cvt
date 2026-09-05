@@ -13,6 +13,9 @@ import {
   registerUser,
   registerUserInvalidEmailFormat,
 } from '../../data/factories/register.factory.js';
+import { expectSchema } from '../../utils/assertions/schema.assert.js';
+import { registerSuccessSchema } from '../../schemas/auth/register-success.schema.js';
+import { registerErrorSchema } from '../../schemas/auth/register-failed.schema.js';
 
 describe('Register API', () => {
   describe('Positive Scenarios', () => {
@@ -193,6 +196,103 @@ describe('Register API', () => {
           status: 400,
           message: 'Invalid email',
         });
+      });
+    });
+
+    test('REGISTER-006 : Return 409 when User Registers With Email has been registered', async () => {
+      await setTestMetadata(
+        registerMetadata({
+          testCaseId: 'REGISTER-006',
+          story: 'Register email has been registered',
+          tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'critical',
+          description:
+            'Verify that user cannot register with Email has been registered.',
+          owner: 'Fairuz Hanif Rabbani',
+        }),
+      );
+
+      const request = registerTestData.emailHasBeenRegistered;
+
+      const response = await allureStep('Send Register Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.register(request);
+        await attachJson('Request Headers', result.requestHeaders);
+        await attachJson('Response Headers', result.headers);
+        await attachJson('Response', result.body);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 409,
+          message: 'Email is already registered',
+        });
+      });
+    });
+  });
+
+  describe('JSON Schema Validation', () => {
+    test('REGISTER-007 : JSON Schema Validation for Response Success', async () => {
+      await setTestMetadata(
+        registerMetadata({
+          testCaseId: 'REGISTER-007',
+          story: 'Register with JSON Schema Validation for Response Success',
+          tags: ['Positive', 'Regression'],
+          severity: 'critical',
+          priority: 'critical',
+          description: 'Verify JSON Schema Validation for Response Success.',
+          owner: 'Fairuz Hanif Rabbani',
+        }),
+      );
+
+      const request = registerUser();
+      const response = await allureStep('Send Register Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.register(request);
+        await attachJson('Request Headers', result.requestHeaders);
+        await attachJson('Response Headers', result.headers);
+        await attachJson('Response', result.body);
+
+        return result;
+      });
+
+      await allureStep('Validate JSON Schema', async () => {
+        expectSchema(response.body, registerSuccessSchema);
+      });
+    });
+
+    test('REGISTER-008 : JSON Schema Validation for Response Error', async () => {
+      await setTestMetadata(
+        registerMetadata({
+          testCaseId: 'REGISTER-008',
+          story: 'Register with JSON Schema Validation for Response Error',
+          tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'critical',
+          description: 'Verify JSON Schema Validation for Response Error.',
+          owner: 'Fairuz Hanif Rabbani',
+        }),
+      );
+
+      const request = registerTestData.emptyEmail;
+      const response = await allureStep('Send Register Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.register(request);
+        await attachJson('Request Headers', result.requestHeaders);
+        await attachJson('Response Headers', result.headers);
+        await attachJson('Response', result.body);
+
+        return result;
+      });
+
+      await allureStep('Validate JSON Schema', async () => {
+        expectSchema(response.body, registerErrorSchema);
       });
     });
   });
