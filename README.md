@@ -89,7 +89,7 @@ Validation       Validation
 | Jest        | Test framework               |
 | REST API    | System under test            |
 | JSON Schema | Response contract validation |
-| MySQL       | Database validation          |
+| PostgreSQL  | Database validation          |
 | dotenv      | Environment configuration    |
 | Faker.js    | Dynamic test data generation |
 | Allure      | Test reporting               |
