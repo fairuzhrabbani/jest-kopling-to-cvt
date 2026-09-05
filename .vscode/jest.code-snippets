@@ -50,4 +50,43 @@
     "body": ["afterEach(async () => {", "  $0", "});"],
     "description": "Create Jest afterEach",
   },
+
+  "Jest Allure Test Metadata": {
+    "prefix": "jestalluremeta",
+    "body": [
+      "await setTestMetadata(",
+      "  registerMetadata({",
+      "    testCaseId: '${1}',",
+      "    story: '${2}',",
+      "    tags: ['${3}', '${4}'],",
+      "    severity: '${5}',",
+      "    priority: '${6}',",
+      "    description:",
+      "      '${7}',",
+      "    owner: '${8:Fairuz Hanif Rabbani}',",
+      "  }),",
+      ");",
+      "$0"
+    ],
+    "description": "Jest Allure test metadata template"
+  },
+
+  "Jest Allure API Step": {
+    "prefix": "jestallurestep",
+    "body": [
+      "const request = ${1};",
+      "const response = await allureStep('${2}', async () => {",
+      "  await attachJson('Request', request);",
+      "",
+      "  const result = await ${3}(request);",
+      "  await attachJson('Request Headers', result.requestHeaders);",
+      "  await attachJson('Response Headers', result.headers);",
+      "  await attachJson('Response', result.body);",
+      "",
+      "  return result;",
+      "});",
+      "$0"
+    ],
+    "description": "Jest Allure API request step with request and response attachments"
+  }
 }
