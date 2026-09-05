@@ -240,11 +240,9 @@ Allure Report
 └── Execution Status
 ```
 
-<p align="center">
-  <img src="docs/images/Backend-API-Store-Jest.png" alt="Allure Report" width="850">
-  <img src="docs/images/Backend-API-Store-Jest1.png" alt="Allure Report" width="850">
-</p>
----
+<img width="1920" height="2188" alt="Backend-API-Store-Jest" src="https://github.com/user-attachments/assets/070ec29e-fbaa-44bd-915c-6cdbbce696f2" />
+<img width="1920" height="1803" alt="Backend-API-Store-Jest1" src="https://github.com/user-attachments/assets/c95f5b83-d85e-4619-9f27-5ffecd3ceef2" />
+
 
 # 🤝 Development Guidelines
 
