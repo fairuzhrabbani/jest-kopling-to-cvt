@@ -1,7 +1,11 @@
 const baseAuthMetadata = {
   epic: 'Authentication',
   feature: 'Login API',
-  tags: ['Authentication', 'Login'],
+};
+
+const baseRegisterMetadata = {
+  epic: 'Authentication',
+  feature: 'Registration API',
 };
 
 export function loginMetadata({
@@ -14,7 +18,22 @@ export function loginMetadata({
     ...baseAuthMetadata,
     story,
     severity,
-    tags: [...baseAuthMetadata.tags, ...tags],
+    tags: [...tags],
+    description,
+  };
+}
+
+export function registerMetadata({
+  story,
+  tags = [],
+  severity = 'Normal',
+  description,
+}) {
+  return {
+    ...baseRegisterMetadata,
+    story,
+    severity,
+    tags: [...tags],
     description,
   };
 }

@@ -1,19 +1,17 @@
+import { registerUser } from '../factories/register.factory.js';
+
 export const registerTestData = {
+  validUser: registerUser,
+
   validCredentials: {
     name: 'trisno Test',
     email: 'trisno@example.com',
     password: 'Password123',
   },
 
-  wrongPassword: {
-    name: 'Herman Test',
-    email: 'fairuz@example.com',
-    password: 'WrongPassword',
-  },
-
-  emailNotFound: {
-    name: 'Herman Test',
-    email: 'nonexistent@example.com',
+  emptyName: {
+    name: '',
+    email: 'herman@example.com',
     password: 'Password123',
   },
 

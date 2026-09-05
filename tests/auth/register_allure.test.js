@@ -3,22 +3,29 @@ import { registerTestData } from '../../data/auth/register.data.js';
 import { setTestMetadata } from '../../utils/allure/allure.metadata.js';
 import { allureStep } from '../../utils/allure/allure.step.js';
 import { attachJson } from '../../utils/allure/allure.attachment.js';
-import { expectSuccessResponse } from '../../utils/assertions/common.assert.js';
+import {
+  expectSuccessResponse,
+  expectErrorResponse,
+} from '../../utils/assertions/common.assert.js';
 import { expectRegisterSuccess } from '../../utils/assertions/auth.assert.js';
-import { loginMetadata } from '../../utils/allure/auth.metadata.js';
+import { registerMetadata } from '../../utils/allure/auth.metadata.js';
+import {
+  registerUser,
+  registerUserInvalidEmailFormat,
+} from '../../data/factories/register.factory.js';
 
 describe('Register API', () => {
   describe('Positive Scenarios', () => {
     test('REGISTER-001 : Return 201 when User Registers Successfully', async () => {
       await setTestMetadata(
-        loginMetadata({
+        registerMetadata({
           story: 'Register with valid credentials',
           tags: ['Positive', 'Regression'],
           description:
             'Verify that user can register successfully using valid credentials.',
         }),
       );
-      const request = registerTestData.validCredentials;
+      const request = registerUser();
 
       const response = await allureStep('Send Register Request', async () => {
         await attachJson('Request', request);
@@ -41,9 +48,128 @@ describe('Register API', () => {
       await allureStep('Validate Register Response', async () => {
         expectRegisterSuccess(response, {
           id: response.body.data.id,
-          name: registerTestData.validCredentials.name,
-          email: registerTestData.validCredentials.email,
+          name: request.name,
+          email: request.email,
           role: 'user',
+        });
+      });
+    });
+  });
+  describe('Negative Scenarios', () => {
+    test('REGISTER-002 : Return 400 when User Registers Without Input Name', async () => {
+      await setTestMetadata(
+        registerMetadata({
+          story: 'Register without input Name',
+          tags: ['Negative', 'Smoke'],
+          description: 'Verify that user cannot register without input name.',
+        }),
+      );
+      const request = registerTestData.emptyName;
+
+      const response = await allureStep('Send Register Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.register(request);
+        await attachJson('Request Headers', result.requestHeaders);
+        await attachJson('Response Headers', result.headers);
+        await attachJson('Response', result.body);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 400,
+          message: 'Name, email, and password are required',
+        });
+      });
+    });
+
+    test('REGISTER-003 : Return 400 when User Registers Without Input Email', async () => {
+      await setTestMetadata(
+        registerMetadata({
+          story: 'Register without input Email',
+          tags: ['Negative', 'Smoke'],
+          description: 'Verify that user cannot register without input Email.',
+        }),
+      );
+      const request = registerTestData.emptyEmail;
+
+      const response = await allureStep('Send Register Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.register(request);
+        await attachJson('Request Headers', result.requestHeaders);
+        await attachJson('Response Headers', result.headers);
+        await attachJson('Response', result.body);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 400,
+          message: 'Name, email, and password are required',
+        });
+      });
+    });
+
+    test('REGISTER-004 : Return 400 when User Registers Without Input Password', async () => {
+      await setTestMetadata(
+        registerMetadata({
+          story: 'Register without input Password',
+          tags: ['Negative', 'Smoke'],
+          description:
+            'Verify that user cannot register without input Password.',
+        }),
+      );
+      const request = registerTestData.emptyPassword;
+
+      const response = await allureStep('Send Register Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.register(request);
+        await attachJson('Request Headers', result.requestHeaders);
+        await attachJson('Response Headers', result.headers);
+        await attachJson('Response', result.body);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 400,
+          message: 'Name, email, and password are required',
+        });
+      });
+    });
+
+    test('REGISTER-005 : Return 400 when User Registers With invalid format Email', async () => {
+      await setTestMetadata(
+        registerMetadata({
+          story: 'Register with invalid format Email',
+          tags: ['Negative', 'Smoke'],
+          description:
+            'Verify that user cannot register with invalid format Email.',
+        }),
+      );
+      const request = registerUserInvalidEmailFormat();
+
+      const response = await allureStep('Send Register Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.register(request);
+        await attachJson('Request Headers', result.requestHeaders);
+        await attachJson('Response Headers', result.headers);
+        await attachJson('Response', result.body);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectErrorResponse(response, {
+          status: 400,
+          message: 'Invalid email',
         });
       });
     });
