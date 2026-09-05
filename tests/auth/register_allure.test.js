@@ -19,10 +19,14 @@ describe('Register API', () => {
     test('REGISTER-001 : Return 201 when User Registers Successfully', async () => {
       await setTestMetadata(
         registerMetadata({
+          testCaseId: 'REGISTER-001',
           story: 'Register with valid credentials',
           tags: ['Positive', 'Regression'],
+          severity: 'critical',
+          priority: 'high',
           description:
             'Verify that user can register successfully using valid credentials.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
       const request = registerUser();
@@ -55,13 +59,18 @@ describe('Register API', () => {
       });
     });
   });
+
   describe('Negative Scenarios', () => {
     test('REGISTER-002 : Return 400 when User Registers Without Input Name', async () => {
       await setTestMetadata(
         registerMetadata({
+          testCaseId: 'REGISTER-002',
           story: 'Register without input Name',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description: 'Verify that user cannot register without input name.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
       const request = registerTestData.emptyName;
@@ -88,9 +97,13 @@ describe('Register API', () => {
     test('REGISTER-003 : Return 400 when User Registers Without Input Email', async () => {
       await setTestMetadata(
         registerMetadata({
+          testCaseId: 'REGISTER-003',
           story: 'Register without input Email',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description: 'Verify that user cannot register without input Email.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
       const request = registerTestData.emptyEmail;
@@ -117,10 +130,14 @@ describe('Register API', () => {
     test('REGISTER-004 : Return 400 when User Registers Without Input Password', async () => {
       await setTestMetadata(
         registerMetadata({
+          testCaseId: 'REGISTER-004',
           story: 'Register without input Password',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description:
             'Verify that user cannot register without input Password.',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
       const request = registerTestData.emptyPassword;
@@ -147,10 +164,15 @@ describe('Register API', () => {
     test('REGISTER-005 : Return 400 when User Registers With invalid format Email', async () => {
       await setTestMetadata(
         registerMetadata({
+          testCaseId: 'REGISTER-005',
           story: 'Register with invalid format Email',
           tags: ['Negative', 'Smoke'],
+          severity: 'critical',
+          priority: 'high',
           description:
             'Verify that user cannot register with invalid format Email.',
+          bugId: 'BUG-123',
+          owner: 'Fairuz Hanif Rabbani',
         }),
       );
       const request = registerUserInvalidEmailFormat();
