@@ -1,4 +1,5 @@
 import authAPI from '../../api/AuthAPI.js';
+import userRepository from '../../database/repositories/user.repository.js';
 import { registerTestData } from '../../data/auth/register.data.js';
 import { setTestMetadata } from '../../utils/allure/allure.metadata.js';
 import { allureStep } from '../../utils/allure/allure.step.js';
@@ -16,6 +17,7 @@ import {
 import { expectSchema } from '../../utils/assertions/schema.assert.js';
 import { registerSuccessSchema } from '../../schemas/auth/register-success.schema.js';
 import { registerErrorSchema } from '../../schemas/auth/register-failed.schema.js';
+import { expectUserInDatabase } from '../../utils/assertions/database.assert.js';
 
 describe('Register API', () => {
   describe('Positive Scenarios', () => {
@@ -293,6 +295,61 @@ describe('Register API', () => {
 
       await allureStep('Validate JSON Schema', async () => {
         expectSchema(response.body, registerErrorSchema);
+      });
+    });
+  });
+
+  describe('Database Validation', () => {
+    test('REGISTER-009 : Database Validation for table users', async () => {
+      await setTestMetadata(
+        registerMetadata({
+          testCaseId: 'REGISTER-009',
+          story: 'Login with Database Validation for table users',
+          tags: ['Positive', 'Regression'],
+          severity: 'critical',
+          priority: 'critical',
+          description: 'Verify Database Validation for table users.',
+          owner: 'Fairuz Hanif Rabbani',
+        }),
+      );
+      const request = registerUser();
+      const response = await allureStep('Send Register Request', async () => {
+        await attachJson('Request', request);
+
+        const result = await authAPI.register(request);
+        await attachJson('Request Headers', result.requestHeaders);
+        await attachJson('Response Headers', result.headers);
+        await attachJson('Response', result.body);
+
+        return result;
+      });
+
+      await allureStep('Validate HTTP Status and Common Response', async () => {
+        expectSuccessResponse(response, {
+          status: 201,
+          message: 'User registered successfully',
+        });
+      });
+
+      await allureStep('Validate Register Response', async () => {
+        expectRegisterSuccess(response, {
+          id: response.body.data.id,
+          name: request.name,
+          email: request.email,
+          role: 'user',
+        });
+      });
+
+      await allureStep('Validate User in Database', async () => {
+        const dbUser = await userRepository.findByEmail(
+          request.email.toLowerCase(),
+        );
+
+        expectUserInDatabase(dbUser, {
+          name: request.name,
+          email: request.email,
+          role: 'user',
+        });
       });
     });
   });

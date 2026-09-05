@@ -8,7 +8,8 @@ class UserRepository {
       SELECT
         id,
         name,
-        email
+        email,
+        role
       FROM users
       WHERE email = $1
     `;
@@ -25,7 +26,8 @@ class UserRepository {
       SELECT
         id,
         name,
-        email
+        email,
+        role
       FROM users
       WHERE id = $1
     `;
