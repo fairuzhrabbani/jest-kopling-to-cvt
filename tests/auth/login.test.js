@@ -130,7 +130,6 @@ describe('AUTH API', () => {
   });
 });
 
-
 /* 
 | Test      | Scenario              | Expected |
 | --------- | --------------------- | -------: |

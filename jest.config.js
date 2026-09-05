@@ -5,7 +5,7 @@ export default {
   testEnvironmentOptions: {
     resultsDir: 'allure-results',
   },
-  
+
   roots: ['<rootDir>/tests'],
 
   testMatch: ['**/*.test.js'],
